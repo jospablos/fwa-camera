@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/html';
-import { createCaptureButton, ButtonProps } from './capture-button';
+import { startCapture, ButtonProps } from './capture-button';
 
 export default {
   title: 'Example/Button',
@@ -9,11 +9,12 @@ export default {
   },
 } as Meta;
 
-const Template: Story<ButtonProps> = (args) => {
-  return createCaptureButton(args);
+const Template: Story<ButtonProps> = () => {
+  const target = document.createElement('div');
+  startCapture(target);
+  return target;
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
-  label: 'Capture screenshot',
 };
