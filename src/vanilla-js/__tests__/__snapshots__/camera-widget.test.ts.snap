@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Camera Widget should let a user take a screenshot 1`] = `
+<img
+  alt="screenshot"
+  class="centered"
+  src="data:image/jpeg;base64,00"
+/>
+`;
+
+exports[`Camera Widget should let a user take a screenshot 2`] = `
+<img
+  alt="screenshot"
+  class="centered"
+  src="data:image/jpeg;base64,01"
+/>
+`;
