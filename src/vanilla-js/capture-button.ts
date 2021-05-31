@@ -1,15 +1,9 @@
-import { tryScreenshot } from '../core/camera';
+import { startCameraFeed } from '../core/camera';
 import './capture-button.css';
-
 export interface ButtonProps {
   label: string;
-  onClick: () => void;
-}
-
-const createCaptureFunction = (onError, videoElement) => () => {
-  tryScreenshot({
-    video: true
-  }, { onError, videoElement });
+  className?: string;
+  onClick?: () => void;
 }
 
 function onError(error: string) {
@@ -19,81 +13,112 @@ function onError(error: string) {
   }
 }
 
-const createMessageBox = () => {
-  const messageBox = document.createElement('span');
-  messageBox.id = 'capture-button-error';
-  return messageBox;
+// short function for creating an element.
+const ce = <type extends keyof HTMLElementTagNameMap>(tag: type, className?: string)  => {
+  const e = document.createElement(tag);
+  if(className) {
+    e.className = className;
+  }
+  return e;
 }
 
-const createCaptureButton = ({label, onClick}: ButtonProps) => {
-  const btn = document.createElement('button');
+const appendChildren = (parent: HTMLElement, ...elements: HTMLElement[]) => {
+  elements.forEach(e => parent.appendChild(e));
+  return parent;
+}
+
+const createButton = ({label, onClick, className}: ButtonProps) => {
+  const btn = ce('button', className);
   
   btn.type = 'button';
-  btn.innerText = label;
-  btn.addEventListener('click', onClick);
+  btn.textContent = label;
 
-  btn.className = 'capture-button';
+  if (onClick) {
+    btn.addEventListener('click', onClick);
+  }
 
   return btn;
 };
 
-const createVideoElement = () => {
-  const video = document.createElement('video');
-  video.style = "display: none;"
-  return video;
-}
-const createCanvasElement = () => {
-  const canvas = document.createElement('canvas');
-  canvas.style = "display: none;"
-  return canvas;
+const createMessageBox = () => {
+  const messageBox = ce('span');
+  messageBox.id = 'capture-button-error';
+  return messageBox;
 }
 
-const joinElements = (...elements: HTMLElement[]) => {
-  const div = document.createElement('div');
-  elements.forEach(e => div.appendChild(e));
-  return div
-}
+const createTakeScreenshot = (canvas: HTMLCanvasElement, video: HTMLVideoElement, screenshotHolder: HTMLImageElement) => () => {
+  const width = video.videoWidth;
+  const height = video.videoHeight;
+  canvas.setAttribute('width', `${width}`);
+  canvas.setAttribute('height', `${height}`);
 
-const paintOnCanvas = (canvas, video) => {
   let ctx = canvas.getContext("2d");
-
-  const width = 320;
-  const height = 240;
-  canvas.width = width;
-  canvas.height = height;
-
-  return setInterval(() => {
+  
+  if (ctx) {
     ctx.drawImage(video, 0, 0, width, height);
-  }, 200);
-}
-
-const createScreenshotHolder = () => {
-  const screenshotHolder = document.createElement('img');
-  return screenshotHolder;
-}
-
-const updateScreenshot = (data, screenshotHolder) => {
-  screenshotHolder.src = data;
-}
-
-const takeScreenshot = (canvas, screenshotHolder) => () => {
-  const data = canvas.toDataURL("image/jpeg");
-
-  updateScreenshot(data, screenshotHolder)
-
-  return canvas.insertAdjacentElement('afterend', screenshotHolder);
+    const data = canvas.toDataURL("image/jpeg");
+  
+    screenshotHolder.src = data;
+  }
 };
 
-export const startCapture = (targetElement: Node) => {
-  const video = createVideoElement();
-  const canvas = createCanvasElement();
-  const screenshotHolder = createScreenshotHolder();
-  const captureFn = createCaptureFunction(onError, video);
-  paintOnCanvas(canvas, video);
+type Camera = {
+  container: HTMLElement;
+  takeScreenshot: () => void;
+  clearScreenshot: () => void;
+}
 
-  const captureButton = createCaptureButton({label: 'Capture screenshot', onClick: captureFn});
-  const screenShotButton = createCaptureButton({label: 'Capture screenshot', onClick: takeScreenshot(canvas, screenshotHolder)});
+const createCamera = (): Camera => {
+  const video = ce('video');
+  const img = ce('img', 'centered');
+  img.alt = 'screenshot';
+  img.hidden = true;
+  const activateCameraButton = createButton({label: 'Activate camera', className: 'centered'});
+  const container = appendChildren(ce('div', 'CameraContainer bg--gray'), video, img, activateCameraButton);
+
+  const canvas = ce('canvas');
+
+  const onCameraActive = (stream: MediaStream) => {
+    video.srcObject = stream;
+    video.play();
+    
+    activateCameraButton.hidden = true;
+  }
+
+  const activateCamera = () =>
+    startCameraFeed({ video: { height: 240, width: 360 } }, { onError, onCameraActive });
+
+  activateCameraButton.addEventListener('click', activateCamera);
+
+  const _takeScreenshot = createTakeScreenshot(canvas, video, img);
+
+  const takeScreenshot = () => {
+    _takeScreenshot();
+    img.hidden = false;
+  }
+
+  const clearScreenshot = () => {
+    img.hidden = true;
+  }
+
+  return {
+    container,
+    takeScreenshot,
+    clearScreenshot,
+  };
+}
+
+const createControls = (camera: Camera) => {
+  const screenshotButton = createButton({label: 'take screenshot', onClick: camera.takeScreenshot});
+  const clearButton = createButton({label: 'clear screenshot', onClick: camera.clearScreenshot});
+
+  return appendChildren(ce('div'), screenshotButton, clearButton);
+}
+
+export const startCamera = (targetElement: Node) => {
+  const camera = createCamera();
+  const controls = createControls(camera);
   const messageBox = createMessageBox();
 
-  targetElement.appendChild(joinElements(captureButton, messageBox, canvas, screenShotButton));
+  targetElement.appendChild(appendChildren(camera.container, messageBox, controls));
 }
