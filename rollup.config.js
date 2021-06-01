@@ -1,17 +1,15 @@
-
-// Rollup plugins to install as npm --save-dev
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 
 export default {
   input: "src/vanilla-js/capture-button.ts",
   output: {
-    file: "dist/vanilla-js/bundle.min.js",
-    name: "Camera",
+    file: "dist/simple-camera.min.js",
+    name: "ez-pz-simple-camera",
     format: "umd",
   },
   plugins: [
-    css({ output: 'bundle.css' }),
+    css({ output: 'simple-camera.css' }),
     typescript(),
   ]
 }
