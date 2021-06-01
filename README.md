@@ -1,6 +1,6 @@
 # @ez-pz/simple-camera
 
-> :warning: **In active development!**: This library has yet to fulfill this promise and may change its API without warning, use with caution.
+> :warning:  **In active development**: This library has yet to fulfill its promise and may change its API without warning, use with caution.
 
 Use any device's camera (screenshot) capabilities from the browser with a single utility with a single API.
 
