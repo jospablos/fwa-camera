@@ -1,27 +1,32 @@
 {
-  "name": "fwa-camera",
-  "version": "0.0.1",
-  "description": "Camera utilities that can live standalone or in any framework",
+  "name": "@ez-pz/simple-camera",
+  "version": "0.0.4",
+  "description": "Web camera utilities that can be used standalone or in any framework",
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "jest",
-    "clean": "rm -rf dist",
     "build": "npm run build:browser",
+    "build-storybook": "build-storybook",
     "build:browser": "rollup --config",
+    "clean": "rm -rf dist",
+    "pub": "npm run clean && npm run build && npm run test:prod && npm publish",
+    "test": "jest",
+    "test:prod": "echo 'TODO: implement testing prod build' && npm run test",
     "test:watch": "jest --watch",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -p 6006"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jospablos/fwa-camera.git"
+    "url": "git+https://github.com/jospablos/simple-camera.git"
   },
   "author": "Pablo Saucedo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jospablos/fwa-camera/issues"
+    "url": "https://github.com/jospablos/simple-camera/issues"
   },
-  "homepage": "https://github.com/jospablos/fwa-camera#readme",
+  "homepage": "https://github.com/jospablos/simple-camera#readme",
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@rollup/plugin-typescript": "^8.2.1",
@@ -41,5 +46,8 @@
     "tslib": "^2.2.0",
     "typescript": "^4.3.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "keywords": [
+    "camera"
+  ]
 }
