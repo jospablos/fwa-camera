@@ -1,11 +1,11 @@
 # @ez-pz/simple-camera
 
-> :warning:  **In active development**: This library has yet to fulfill its promise and may change its API without warning, use with caution.
+> :warning: - **In active development**: This library has yet to fulfill its promise and may change its API without warning, use with caution.
 
 Use any device's camera (screenshot) capabilities from the browser with a single utility with a single API.
 
-- Integrate on any frontend.
-- Easily add to your project from the CDN.
+- Integrate on any frontend. Vanilla JS, React, Vue, Angular, Svelte... - No need to have a separate interface/package for each framework you support.
+- Easily add to your project from the CDN. It should be easy for integrators to use your library.
 - Written in Typescript, framework agnostic.
 
 # Usage
