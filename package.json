@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "build:browser": "rollup --config",
     "test:watch": "jest --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -21,6 +22,7 @@
   "homepage": "https://github.com/jospablos/fwa-camera#readme",
   "devDependencies": {
     "@babel/core": "^7.14.3",
+    "@rollup/plugin-typescript": "^8.2.1",
     "@storybook/addon-actions": "^6.2.9",
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
@@ -31,7 +33,10 @@
     "@types/jest": "^26.0.23",
     "babel-loader": "^8.2.2",
     "jest": "^27.0.3",
+    "rollup": "^2.50.5",
+    "rollup-plugin-css-only": "^3.1.0",
     "ts-jest": "^27.0.1",
+    "tslib": "^2.2.0",
     "typescript": "^4.3.2"
   },
   "dependencies": {}
