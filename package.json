@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "clean": "rm -rf dist",
+    "build": "npm run build:browser",
     "build:browser": "rollup --config",
     "test:watch": "jest --watch",
     "storybook": "start-storybook -p 6006",
