@@ -2,7 +2,8 @@ import {
   getByText,
   waitFor,
   getByAltText,
-} from '@testing-library/dom'
+} from '@testing-library/dom';
+import '@testing-library/jest-dom';
 import {startCamera} from '../capture-button';
 
 function mountCameraWidget() {
