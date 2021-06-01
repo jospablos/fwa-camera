@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Camera Widget should let a user take a screenshot 1`] = `
+exports[`Camera should let a user take a screenshot 1`] = `
 <img
   alt="screenshot"
   class="centered"
@@ -8,7 +8,7 @@ exports[`Camera Widget should let a user take a screenshot 1`] = `
 />
 `;
 
-exports[`Camera Widget should let a user take a screenshot 2`] = `
+exports[`Camera should let a user take a screenshot 2`] = `
 <img
   alt="screenshot"
   class="centered"
